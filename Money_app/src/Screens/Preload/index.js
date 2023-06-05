@@ -15,14 +15,12 @@ export default () => {
 
       if (token){
         try{ 
-          const data = await Api.get("/profile", {
-            headers: { 
-              Authorization: `Bearer ${token} `,
-            },
-          });
-
-          navigation.navigate("Dashboard")
-
+          await Api.checkToken(token)
+          .then(() => {
+            navigation.reset({
+                routes: [{ name: 'MainTab' }]
+            }); 
+          })
         } catch(e){
         navigation.navigate("SignIn")
       } 

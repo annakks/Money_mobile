@@ -23,7 +23,6 @@ export default {
   signIn: async (email, password) => {
     try {
       const response = await api.post('/login', { email, password });
-      console.log(response.data)
       const token = await AsyncStorage.getItem('token')
 
       return response.data;

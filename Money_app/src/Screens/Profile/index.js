@@ -17,7 +17,6 @@ export default () => {
 
     const getProfile = async () => {
         const token = await AsyncStorage.getItem('token');
-        console.log(token);
         try{
             await Api.checkToken(token)
             .then(response => {

@@ -30,6 +30,7 @@ export const TextArea = styled.View`
     padding: 15px;
     margin-top: 50px;
     margin-bottom: 5px;
+    color: #808080,
 `;
 
 export const IconPhoto = styled.View`

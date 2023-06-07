@@ -1,6 +1,5 @@
 import React from "react";
 import styled from "styled-components/native";
-import { useNavigation } from '@react-navigation/native';
 
 const Area = styled.TouchableOpacity`
   background-color: white;
@@ -34,20 +33,37 @@ const Name = styled.Text`
 `;
 
 const Value = styled.Text`
-  color: ${(props) => (props.type == "despesa" ? "#EF4565" : "black")};
-  font-size: 18px;
+  color: #094067;
 `;
 
-export default ({ type, name, date, value }) => {
+const Value2 = styled.Text`
+  color: #EF4565;
+`;
+
+export default ({ type, name, date, value, onPress }) => {
+
+  function formatDate(dateField) {
+    const parts = dateField.split("-");
+    const day = parts[2];
+    const month = parts[1];
+    const year = parts[0];
+    const formattedDate = `${day}/${month}/${year}`;
+    return formattedDate;
+  }
+
+  
   return (
-    <Area>
+    <Area onPress={onPress}>
       <View>
-        <Type>Tipo : {type}</Type>
+        <Type>Tipo: {type}</Type>
         <Name>Descrição: {name}</Name>
       </View>
       <View>
-        <Date>Data: {date}</Date>
-        <Value value={value}>Valor: {value}</Value>
+        <Date>Data: {formatDate(date)}</Date>
+        {type === "despesa" ? 
+        ( <Value2>Valor: R$ - {value},00</Value2>):
+        (<Value>Valor: R$ {value},00</Value>)
+        }
       </View>
     </Area>
   );

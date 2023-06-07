@@ -42,7 +42,6 @@ export default () => {
       try {
         await Api.postRecord(data)
         .then((response) => {
-            console.log(data);
             console.log(response);
             alert ("Registrado com sucesso!")
             navigation.reset({

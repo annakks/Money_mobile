@@ -4,7 +4,7 @@ import axios from "axios";
 
 
 const api = axios.create({
-    baseURL: 'http://192.168.126.73:3010'
+    baseURL: 'http://192.168.15.8:3010'
 });
 
 export default {
@@ -39,13 +39,30 @@ export default {
     const response = await api.get('/recordsUser', {
       headers: { Authorization: `Bearer ${token} `}
     });
-    const data = response.data; // Observe que você precisa acessar a propriedade 'data' do objeto de resposta
-    return JSON.stringify(data);
+    const data = response.data; 
+    return data;
   } catch (error) {
     console.log(error);
     throw error;
   }
-},
+  },
+  
+  getRecordId: async (idProp) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      const response = await api.get('/record', idProp, {
+        headers: { Authorization: `Bearer ${token} `}
+      });
+      console.log(response);
+      const data = response.data
+      return data;
+
+    } catch (error) {
+      console.log(error);
+      throw error;
+    }
+
+  },
 
   getBalance: async () => {
     try {

@@ -23,7 +23,16 @@ export const HeaderText = styled.Text`
     margin-bottom: 20px;
     margin-left: 30px;
     font-weight: bold;
+`;
 
+export const HeaderText2 = styled.Text`
+    font-size: 20px;
+    color: #094067;
+    margin-top: 150px;
+    margin-left: 50px;
+    font-weight: bold;
+    max-width: 250px;
+    justify-content: center;
 `;
 
 export const AreaValue = styled.View`

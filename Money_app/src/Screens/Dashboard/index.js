@@ -107,7 +107,7 @@ export default () => {
         ) : (
           list.map((data) => (
             <CardExtract
-              key={data.id}
+              key={data.idRecord}
               type={data.type}
               name={data.name}
               date={data.date}

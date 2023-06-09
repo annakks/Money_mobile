@@ -23,15 +23,16 @@ export default ({route}) => {
 
     const { dataProp } = route.params;
     const navigation = useNavigation();
-    const [id, setId] = useState(dataProp.id);
-    const [type, setType] = useState(dataProp.type);
+    const [id, setId] = useState(dataProp.idRecord);
     const [name, setName] = useState(newName);
     const [date, setDate] = useState(newDate);
     const [value, setValue] = useState(newValue);
     const [observation, setObservation] = useState(newObserver);
+    const [user, setUser] = useState(dataProp.user);
+    const [selectedType, setSelectedType] = useState(dataProp.type);
     
 
-    function formatDate(dateField) {
+    function formatDateReq(dateField) {
     const parts = dateField.split("-");
     const year= parts[0];
     const month = parts[1];
@@ -40,18 +41,61 @@ export default ({route}) => {
     return formattedDate;
   }
 
-    const newDate = formatDate(dataProp.date)
+
+    const newValue = `R$ ${dataProp.value}`;
+    const newDate = formatDateReq(dataProp.date)
     const newName = dataProp.name
     const newObserver = dataProp.observation
-    const newValue = `R$ ${dataProp.value}`;
+    
 
 
     console.log(dataProp);
     console.log(newValue);
+    console.log(selectedType)
 
     const handleTypeChange = (type) => {
     setSelectedType(type);
     };
+    
+
+    function formatDate(dateField) {
+    const parts = dateField.split("/");
+    const day = parts[0];
+    const month = parts[1];
+    const year = parts[2];
+    const formattedDate = `${year}-${month}-${day}`;
+    return formattedDate;
+  }
+
+    const handleSignClick = async () => {
+        const formattedDate = formatDate(date);
+        const data = {
+            idRecord: id,
+            type: selectedType,
+            name: name,
+            value: value,
+            date: formattedDate, 
+            observation: observation, 
+            id_User: user
+        };
+        
+        console.log(data);
+
+        try{
+            await Api.updateRecord(data)
+            .then((response) =>{
+                console.log(response);
+                alert ("Atualizado com Sucesso!")
+                navigation.reset({
+                    routes: [{name: 'Dashboard'}]
+                });
+            });
+
+        }catch (error){
+            console.log(error);
+        }
+
+    }
 
 
     return (
@@ -65,7 +109,7 @@ export default ({route}) => {
             onChangeText={(t) => setValue(t)}
           />
           <SignInType
-            selectedType={type}
+            selectedType={selectedType}
             onTypeChange={handleTypeChange}
           />
           <SignPutRegister
@@ -83,7 +127,7 @@ export default ({route}) => {
             value={observation}
             onChangeText={(t) => setObservation(t)}
           />
-          <CustomButton>
+          <CustomButton onPress={handleSignClick}>
             <CustomButtonText>Atualizar</CustomButtonText>
           </CustomButton>
         </InputArea>

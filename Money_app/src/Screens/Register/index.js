@@ -65,8 +65,6 @@ export default () => {
     return formattedDate;
   }
 
-  
-  const [id, setId] = useState();
 
   const getProfile = async () => {
     const token = await AsyncStorage.getItem("token");
@@ -83,7 +81,6 @@ export default () => {
     getProfile();
   }, []);
 
-  console.log(id);
   console.log("Tipo: " + selectedType);
 
   return (

@@ -93,6 +93,20 @@ export default {
     }
   },
 
+  updateRecord: async (data) => {
+    try {
+      const token = await AsyncStorage.getItem('token');
+      console.log(data);
+      const response = await api.put('/updateRecord', data, {
+        headers: { Authorization: `Bearer ${token}` }
+      });
+      return response.data;
+    }catch (error) {
+      console.log(error);
+      throw error;
+    }
+  },
+
   signUp: async (name, email, password) => {
     try {
       const response = await api.post('/user', { name, email, password });
@@ -102,4 +116,6 @@ export default {
       throw error;
     }
   },
+
+
 };

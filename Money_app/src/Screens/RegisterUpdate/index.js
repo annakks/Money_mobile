@@ -25,8 +25,8 @@ export default ({route}) => {
     const navigation = useNavigation();
     const [id, setId] = useState(dataProp.idRecord);
     const [name, setName] = useState(newName);
-    const [date, setDate] = useState(newDate);
-    const [value, setValue] = useState(newValue);
+    const [date, setDate] = useState(formatDateReq(dataProp.date));
+    const [value, setValue] = useState();
     const [observation, setObservation] = useState(newObserver);
     const [user, setUser] = useState(dataProp.user);
     const [selectedType, setSelectedType] = useState(dataProp.type);
@@ -38,20 +38,23 @@ export default ({route}) => {
     const month = parts[1];
     const day = parts[2];
     const formattedDate = `${day}/${month}/${year}`;
+     console.log(formattedDate)
     return formattedDate;
   }
 
 
-    const newValue = `R$ ${dataProp.value}`;
-    const newDate = formatDateReq(dataProp.date)
+    const newDate = formatDate(date)
     const newName = dataProp.name
     const newObserver = dataProp.observation
     
 
 
     console.log(dataProp);
-    console.log(newValue);
-    console.log(selectedType)
+    console.log(value);
+    console.log(selectedType);
+
+   
+
 
     const handleTypeChange = (type) => {
     setSelectedType(type);
@@ -68,18 +71,18 @@ export default ({route}) => {
   }
 
     const handleSignClick = async () => {
-        const formattedDate = formatDate(date);
+
         const data = {
             idRecord: id,
             type: selectedType,
             name: name,
             value: value,
-            date: formattedDate, 
+            date: newDate, 
             observation: observation, 
             id_User: user
         };
         
-        console.log(data);
+        console.log("este é o novo " + data);
 
         try{
             await Api.updateRecord(data)
@@ -104,7 +107,7 @@ export default ({route}) => {
         <TextLogo>Atualize dos dados</TextLogo>
         <InputArea>
           <SignPutValue
-            placeholder={newValue}
+            placeholder={`R$ ${dataProp.value}`}
             value={value}
             onChangeText={(t) => setValue(t)}
           />
@@ -112,8 +115,9 @@ export default ({route}) => {
             selectedType={selectedType}
             onTypeChange={handleTypeChange}
           />
+          
           <SignPutRegister
-            placeholder={newDate}
+            placeholder={date}
             value={date}
             onChangeText={(t) => setDate(t)}
           />
